@@ -1,34 +1,60 @@
-// @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import { defineConfig } from "eslint/config";
+import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import _import from "eslint-plugin-import";
+import { fixupPluginRules } from "@eslint/compat";
+import globals from "globals";
+import tsParser from "@typescript-eslint/parser";
 
-export default tseslint.config(
-  {
-    ignores: ['eslint.config.mjs'],
-  },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
-  {
+export default defineConfig([{
+    plugins: {
+        "@typescript-eslint": typescriptEslint,
+        import: fixupPluginRules(_import),
+    },
+
     languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.jest,
-      },
-      sourceType: 'commonjs',
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
+        globals: {
+            ...globals.browser,
+        },
+
+        parser: tsParser,
+        ecmaVersion: 12,
+        sourceType: "module",
+
+        parserOptions: {
+            ecmaFeatures: {
+                jsx: true,
+            },
+        },
     },
-  },
-  {
+
+    settings: {
+        react: {
+            version: "detect",
+        },
+    },
+
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn'
+        "no-console": "error",
+
+        "import/order": ["error", {
+            groups: [
+                "type",
+                "builtin",
+                "object",
+                "external",
+                "internal",
+                "parent",
+                "sibling",
+                "index",
+            ],
+
+            pathGroups: [{
+                pattern: "~/**",
+                group: "external",
+                position: "after",
+            }],
+
+            "newlines-between": "always",
+        }],
     },
-  },
-);
+}]);

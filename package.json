@@ -12,12 +12,14 @@
         "start:dev": "nest start --watch",
         "start:debug": "nest start --debug --watch",
         "start:prod": "node dist/main",
-        "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
         "test": "jest",
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-        "test:e2e": "jest --config ./test/jest-e2e.json"
+        "test:e2e": "jest --config ./test/jest-e2e.json",
+        "prepare": "husky",
+        "commitlint": "commitlint --edit",
+        "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
     },
     "dependencies": {
         "@nestjs/common": "^11.0.1",
@@ -27,6 +29,8 @@
         "rxjs": "^7.8.1"
     },
     "devDependencies": {
+        "@commitlint/cli": "^19.8.1",
+        "@eslint/compat": "^1.2.9",
         "@eslint/eslintrc": "^3.2.0",
         "@eslint/js": "^9.18.0",
         "@nestjs/cli": "^11.0.0",
@@ -40,6 +44,7 @@
         "@types/supertest": "^6.0.2",
         "eslint": "^9.18.0",
         "eslint-config-prettier": "^10.0.1",
+        "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-prettier": "^5.4.0",
         "globals": "^16.0.0",
         "husky": "^9.1.7",
@@ -79,6 +84,7 @@
         ],
         "**/*.{json,yaml,yml,toml, css, md}": [
             "prettier --write"
-        ]
+        ],
+        "*.js": "eslint --cache --fix"
     }
 }
