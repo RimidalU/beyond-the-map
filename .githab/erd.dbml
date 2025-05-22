@@ -1,0 +1,24 @@
+Table Users {
+  id integer [primary key]
+  username varchar [unique, not null]
+  email varchar [unique, not null]
+  password varchar [not null]
+  created_at datetime [default: `now()`]
+  updated_at datetime
+}
+
+Table Articles {
+  id integer [primary key]
+  title varchar [not null]
+  description text
+  published_at datetime
+  author_id integer [not null]
+  tags varchar[]
+  is_local boolean [default: false]
+  locality_name varchar [not null]
+  landmarks_url varchar
+  created_at datetime [default: `now()`]
+  updated_at datetime
+}
+
+Ref: Articles.author_id > Users.id
