@@ -10,6 +10,7 @@ import { SuccessResponseDto } from './dto/success-response.dto'
 import { RemoveSwaggerDecorator } from './decorators/remove-swagger.decorator'
 import { FindAllSwaggerDecorator } from './decorators/find-all-swagger.decorator'
 import { UserResponseDto } from './dto/user.response.dto'
+import { FindUserByIdSwaggerDecorator } from './decorators/find-user-by-id-swagger.decorator'
 
 @Controller('users')
 @ApiTags('User routes')
@@ -29,7 +30,8 @@ export class UsersController {
     }
 
     @Get(':id')
-    async findOne(@Param('id') id: string): Promise<UsersEntity> {
+    @FindUserByIdSwaggerDecorator()
+    async findOne(@Param('id') id: string): Promise<UserResponseDto> {
         return await this.usersService.findById(+id)
     }
 

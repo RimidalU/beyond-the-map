@@ -7,6 +7,7 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { UserNotFoundException } from './exceptions/user-not-found.exception'
 import { SuccessResponseDto } from './dto/success-response.dto'
 import { UserResponseDto } from './dto/user.response.dto'
+// import { UpdateResult } from 'typeorm'
 
 @Injectable()
 export class UsersService {
@@ -25,7 +26,7 @@ export class UsersService {
         return this.usersRepository.findAll()
     }
 
-    async findById(id: number): Promise<UsersEntity> {
+    async findById(id: number): Promise<UserResponseDto> {
         const user = await this.usersRepository.findById(id)
         if (!user) {
             throw new UserNotFoundException(id)

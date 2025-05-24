@@ -48,9 +48,15 @@ export class UsersRepository {
         }
     }
 
-    async findById(id: number): Promise<UsersEntity | null> {
+    async findById(id: number): Promise<UserResponseDto | null> {
         try {
-            return this.repo.findOneBy({ id })
+            return this.repo.findOne({
+                select: {
+                    id: true,
+                    username: true,
+                },
+                where: { id },
+            })
         } catch (error) {
             this.logger.error('Error on find user by id', error)
             throw new InternalServerError()
