@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
-import { SuccessResponseDto } from '@src/users/dto/success-response.dto'
-import { UserNotFoundException } from '@src/users/exceptions/user-not-found.exception'
 import { UsersRepository } from '@src/users/users.repository'
 import { UsersEntity } from '@src/users/entities/users.entity'
 
 import { ArticlesRepository } from './articles.repository'
 import { ArticleEntity } from './entities/articles.entity'
 import { CreateArticleDto } from './dto/create-article.dto'
+import { ArticleNotFoundException } from './exceptions/article-not-found.exception'
+import { SuccessResponseDto } from './dto/success-response.dto'
 
 @Injectable()
 export class ArticlesService {
@@ -22,7 +22,7 @@ export class ArticlesService {
         const author = await this.usersRepository.findById(currentUserId)
 
         if (!author) {
-            throw new UserNotFoundException(currentUserId)
+            throw new ArticleNotFoundException(currentUserId)
         }
 
         const newArticle = new ArticleEntity()
@@ -46,13 +46,19 @@ export class ArticlesService {
         return articles
     }
 
-    // async findById(id: number): Promise<UserResponseDto> {
-    //     const user = await this.articlesRepository.findById(id)
-    //     if (!user) {
-    //         throw new UserNotFoundException(id)
-    //     }
-    //     return user
-    // }
+    async findById(id: number): Promise<ArticleEntity> {
+        const article = await this.articlesRepository.findById(id)
+        if (!article) {
+            throw new ArticleNotFoundException(id)
+        }
+
+        ;(article.author as Pick<UsersEntity, 'id' | 'username'>) = {
+            id: article.author.id,
+            username: article.author.username,
+        }
+
+        return article
+    }
 
     // async updateUser(
     //     id: number,
@@ -68,7 +74,7 @@ export class ArticlesService {
     async deleteArticle(id: number): Promise<SuccessResponseDto> {
         const status = await this.usersRepository.deleteById(id)
         if (status.affected === 0) {
-            throw new UserNotFoundException(id)
+            throw new ArticleNotFoundException(id)
         }
         return { id }
     }

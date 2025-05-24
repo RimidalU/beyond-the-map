@@ -24,11 +24,11 @@ export class ArticlesController {
         return this.articlesService.findAll()
     }
 
-    // @Get(':id')
+    @Get(':id')
     // @FindUserByIdSwaggerDecorator()
-    // async findOne(@Param('id') id: string): Promise<UserResponseDto> {
-    //     return await this.articlesService.findById(+id)
-    // }
+    async findOne(@Param('id') id: string): Promise<ArticleEntity> {
+        return await this.articlesService.findById(+id)
+    }
 
     // @Put(':id')
     // @UpdateSwaggerDecorator()

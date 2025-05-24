@@ -33,6 +33,27 @@ export class ArticlesRepository {
         }
     }
 
+    async findById(id: number): Promise<ArticleEntity | null> {
+        try {
+            return this.repo.findOneBy({ id })
+        } catch (error) {
+            this.logger.error('Error on find article by id', error)
+            throw new InternalServerError()
+        }
+    }
+
+    // async updateById(
+    //     id: number,
+    //     updateData: UpdateUserDto,
+    // ): Promise<UpdateResult> {
+    //     try {
+    //         return await this.repo.update(id, updateData)
+    //     } catch (error) {
+    //         this.logger.error('Error on update user', error)
+    //         throw new InternalServerError()
+    //     }
+    // }
+
     async deleteById(id: number): Promise<DeleteResult> {
         try {
             return await this.repo.delete(id)
