@@ -11,6 +11,7 @@ import {
 
 import { UsersEntity } from './entities/users.entity'
 import { UsersService } from './users.service'
+import { CreateUserDto } from './dto/create-user.dto'
 
 @Controller('users')
 export class UsersController {
@@ -31,7 +32,7 @@ export class UsersController {
     }
 
     @Post()
-    async create(@Body() userData: Partial<UsersEntity>): Promise<UsersEntity> {
+    async create(@Body() userData: CreateUserDto): Promise<UsersEntity> {
         return this.usersService.createUser(userData)
     }
 

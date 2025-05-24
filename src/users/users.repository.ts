@@ -3,6 +3,7 @@ import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { UsersEntity } from './entities/users.entity'
+import { CreateUserDto } from './dto/create-user.dto'
 
 @Injectable()
 export class UsersRepository {
@@ -19,9 +20,7 @@ export class UsersRepository {
         return this.repo.findOneBy({ id })
     }
 
-    async createAndSave(
-        UsersEntityData: Partial<UsersEntity>,
-    ): Promise<UsersEntity> {
+    async createAndSave(UsersEntityData: CreateUserDto): Promise<UsersEntity> {
         const UsersEntity = this.repo.create(UsersEntityData)
         return this.repo.save(UsersEntity)
     }
