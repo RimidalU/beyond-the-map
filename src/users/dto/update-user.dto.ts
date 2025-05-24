@@ -8,7 +8,7 @@ export class UpdateUserDto {
         example: 'Don Dou',
         description: 'User Name',
     })
-    readonly name?: string
+    readonly username?: string
 
     @IsEmail()
     @IsOptional()

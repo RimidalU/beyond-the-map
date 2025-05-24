@@ -7,7 +7,6 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { UserNotFoundException } from './exceptions/user-not-found.exception'
 import { SuccessResponseDto } from './dto/success-response.dto'
 import { UserResponseDto } from './dto/user.response.dto'
-// import { UpdateResult } from 'typeorm'
 
 @Injectable()
 export class UsersService {
@@ -37,8 +36,12 @@ export class UsersService {
     async updateUser(
         id: number,
         updateData: UpdateUserDto,
-    ): Promise<UsersEntity | null> {
-        return this.usersRepository.updateById(id, updateData)
+    ): Promise<SuccessResponseDto> {
+        const status = await this.usersRepository.updateById(id, updateData)
+        if (status.affected === 0) {
+            throw new UserNotFoundException(id)
+        }
+        return { id }
     }
 
     async deleteUser(id: number): Promise<SuccessResponseDto> {

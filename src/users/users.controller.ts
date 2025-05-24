@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 
-import { UsersEntity } from './entities/users.entity'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
@@ -11,6 +10,7 @@ import { RemoveSwaggerDecorator } from './decorators/remove-swagger.decorator'
 import { FindAllSwaggerDecorator } from './decorators/find-all-swagger.decorator'
 import { UserResponseDto } from './dto/user.response.dto'
 import { FindUserByIdSwaggerDecorator } from './decorators/find-user-by-id-swagger.decorator'
+import { UpdateSwaggerDecorator } from './decorators/update-swagger.decorator'
 
 @Controller('users')
 @ApiTags('User routes')
@@ -36,11 +36,12 @@ export class UsersController {
     }
 
     @Put(':id')
+    @UpdateSwaggerDecorator()
     async update(
         @Param('id') id: string,
         @Body() updateData: UpdateUserDto,
-    ): Promise<UsersEntity | null> {
-        return this.usersService.updateUser(+id, updateData)
+    ): Promise<SuccessResponseDto> {
+        return await this.usersService.updateUser(+id, updateData)
     }
 
     @Delete(':id')

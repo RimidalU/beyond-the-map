@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { DeleteResult, Repository } from 'typeorm'
+import { DeleteResult, Repository, UpdateResult } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { TypeOrmError } from '@src/types/typeorm.types'
 import { UNIQUE_VIOLATION_CODE } from '@src/constants/typeorm.constants'
@@ -66,10 +66,9 @@ export class UsersRepository {
     async updateById(
         id: number,
         updateData: UpdateUserDto,
-    ): Promise<UsersEntity | null> {
+    ): Promise<UpdateResult> {
         try {
-            await this.repo.update(id, updateData)
-            return this.findById(id) ?? null
+            return await this.repo.update(id, updateData)
         } catch (error) {
             this.logger.error('Error on update user', error)
             throw new InternalServerError()
