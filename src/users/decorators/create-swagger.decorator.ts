@@ -6,9 +6,9 @@ import {
     ApiOperation,
 } from '@nestjs/swagger'
 
-import { UserCreatedResponseDto } from '../dto/user-created-response.dto'
+import { SuccessResponseDto } from '../dto/success-response.dto'
 import { InternalServerErrorResponseDto } from '../dto/internal--server-error-response.dto'
-import { UserAlreadyExistsResponseDto } from '../dto/user-already-existsresponse.dto'
+import { UserAlreadyExistsResponseDto } from '../dto/user-already-exists.response.dto'
 
 export function CreateSwaggerDecorator() {
     return applyDecorators(
@@ -23,7 +23,7 @@ export function CreateSwaggerDecorator() {
         }),
         ApiCreatedResponse({
             description: 'User created',
-            type: UserCreatedResponseDto,
+            type: SuccessResponseDto,
         }),
     )
 }
