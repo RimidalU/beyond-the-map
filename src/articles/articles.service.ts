@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { UsersRepository } from '@src/users/users.repository'
 import { UsersEntity } from '@src/users/entities/users.entity'
+import { UserNotFoundException } from '@src/users/exceptions/user-not-found.exception'
 
 import { ArticlesRepository } from './articles.repository'
 import { ArticleEntity } from './entities/articles.entity'
@@ -23,7 +24,7 @@ export class ArticlesService {
         const author = await this.usersRepository.findById(currentUserId)
 
         if (!author) {
-            throw new ArticleNotFoundException(currentUserId)
+            throw new UserNotFoundException(currentUserId)
         }
 
         const newArticle = new ArticleEntity()

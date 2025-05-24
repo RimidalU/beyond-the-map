@@ -5,13 +5,14 @@ import { CreateArticleDto } from './dto/create-article.dto'
 import { ArticleEntity } from './entities/articles.entity'
 import { UpdateArticleDto } from './dto/update-article.dto'
 import { SuccessResponseDto } from './dto/success-response.dto'
+import { CreateSwaggerDecorator } from './decorators/create-swagger.decorator'
 
 @Controller('articles')
 export class ArticlesController {
     constructor(private readonly articlesService: ArticlesService) {}
 
     @Post()
-    // @CreateSwaggerDecorator()
+    @CreateSwaggerDecorator()
     async create(
         // @UserInfo('id') currentUserId: number,
         @Body() articleData: CreateArticleDto,
