@@ -1,13 +1,4 @@
-import {
-    Controller,
-    Get,
-    Post,
-    Body,
-    Param,
-    Put,
-    Delete,
-    NotFoundException,
-} from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 
 import { UsersEntity } from './entities/users.entity'
@@ -15,7 +6,10 @@ import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { CreateSwaggerDecorator } from './decorators/create-swagger.decorator'
-import { UserCreatedResponseDto } from './dto/user-created-response.dto'
+import { SuccessResponseDto } from './dto/success-response.dto'
+import { RemoveSwaggerDecorator } from './decorators/remove-swagger.decorator'
+import { FindAllSwaggerDecorator } from './decorators/find-all-swagger.decorator'
+import { UserResponseDto } from './dto/user.response.dto'
 
 @Controller('users')
 @ApiTags('User routes')
@@ -24,24 +18,19 @@ export class UsersController {
 
     @Post()
     @CreateSwaggerDecorator()
-    async create(
-        @Body() userData: CreateUserDto,
-    ): Promise<UserCreatedResponseDto> {
+    async create(@Body() userData: CreateUserDto): Promise<SuccessResponseDto> {
         return this.usersService.createUser(userData)
     }
 
     @Get()
-    async findAll(): Promise<UsersEntity[]> {
+    @FindAllSwaggerDecorator()
+    async findAll(): Promise<UserResponseDto[]> {
         return this.usersService.findAll()
     }
 
     @Get(':id')
-    async findOne(@Param('id') id: string): Promise<UsersEntity | null> {
-        const user = await this.usersService.findById(+id)
-        if (!user) {
-            throw new NotFoundException('User not found')
-        }
-        return user
+    async findOne(@Param('id') id: string): Promise<UsersEntity> {
+        return await this.usersService.findById(+id)
     }
 
     @Put(':id')
@@ -53,7 +42,8 @@ export class UsersController {
     }
 
     @Delete(':id')
-    async remove(@Param('id') id: string): Promise<void> {
-        await this.usersService.deleteUser(+id)
+    @RemoveSwaggerDecorator()
+    async remove(@Param('id') id: string): Promise<SuccessResponseDto> {
+        return await this.usersService.deleteUser(+id)
     }
 }
