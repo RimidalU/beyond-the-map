@@ -1,9 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { DeleteResult, Repository } from 'typeorm'
+import { DeleteResult, Repository, UpdateResult } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { ArticleEntity } from './entities/articles.entity'
 import { InternalServerError } from './exceptions/internal-server-error.exception'
+import { UpdateArticleDto } from './dto/update-article.dto'
 
 @Injectable()
 export class ArticlesRepository {
@@ -42,23 +43,23 @@ export class ArticlesRepository {
         }
     }
 
-    // async updateById(
-    //     id: number,
-    //     updateData: UpdateUserDto,
-    // ): Promise<UpdateResult> {
-    //     try {
-    //         return await this.repo.update(id, updateData)
-    //     } catch (error) {
-    //         this.logger.error('Error on update user', error)
-    //         throw new InternalServerError()
-    //     }
-    // }
+    async updateById(
+        id: number,
+        updateData: UpdateArticleDto,
+    ): Promise<UpdateResult> {
+        try {
+            return await this.repo.update(id, updateData)
+        } catch (error) {
+            this.logger.error('Error on update article', error)
+            throw new InternalServerError()
+        }
+    }
 
     async deleteById(id: number): Promise<DeleteResult> {
         try {
             return await this.repo.delete(id)
         } catch (error) {
-            this.logger.error('Error on delete user', error)
+            this.logger.error('Error on delete article', error)
             throw new InternalServerError()
         }
     }

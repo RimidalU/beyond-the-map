@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
-import { SuccessResponseDto } from '@src/users/dto/success-response.dto'
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 
 import { ArticlesService } from './articles.service'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { ArticleEntity } from './entities/articles.entity'
+import { UpdateArticleDto } from './dto/update-article.dto'
+import { SuccessResponseDto } from './dto/success-response.dto'
 
 @Controller('articles')
 export class ArticlesController {
@@ -13,9 +14,9 @@ export class ArticlesController {
     // @CreateSwaggerDecorator()
     async create(
         // @UserInfo('id') currentUserId: number,
-        @Body() userData: CreateArticleDto,
+        @Body() articleData: CreateArticleDto,
     ): Promise<SuccessResponseDto> {
-        return this.articlesService.createArticle(24, userData)
+        return this.articlesService.createArticle(24, articleData)
     }
 
     @Get()
@@ -30,14 +31,14 @@ export class ArticlesController {
         return await this.articlesService.findById(+id)
     }
 
-    // @Put(':id')
+    @Put(':id')
     // @UpdateSwaggerDecorator()
-    // async update(
-    //     @Param('id') id: string,
-    //     @Body() updateData: UpdateUserDto,
-    // ): Promise<SuccessResponseDto> {
-    //     return await this.articlesService.updateUser(+id, updateData)
-    // }
+    async update(
+        @Param('id') id: string,
+        @Body() updateData: UpdateArticleDto,
+    ): Promise<SuccessResponseDto> {
+        return await this.articlesService.updateArticle(+id, updateData)
+    }
 
     @Delete(':id')
     // @RemoveSwaggerDecorator()

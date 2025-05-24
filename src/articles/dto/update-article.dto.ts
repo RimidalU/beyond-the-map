@@ -1,14 +1,14 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator'
+import { IsString, IsOptional, IsBoolean } from 'class-validator'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 
-export class CreateArticleDto {
+export class UpdateArticleDto {
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     @ApiProperty({
         example: 'Exploring Local Landmarks',
         description: 'Article title',
     })
-    title: string
+    title?: string
 
     @IsString()
     @IsOptional()
@@ -16,7 +16,7 @@ export class CreateArticleDto {
         example: 'A guide to the most interesting local landmarks.',
         description: 'Article description',
     })
-    description: string
+    description?: string
 
     @IsBoolean()
     @IsOptional()
@@ -25,13 +25,13 @@ export class CreateArticleDto {
         description: 'Is the article local?',
         default: false,
     })
-    is_local: boolean
+    is_local?: boolean
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     @ApiProperty({
         example: 'Downtown',
         description: 'Locality name',
     })
-    locality_name: string
+    locality_name?: string
 }

@@ -7,6 +7,7 @@ import { ArticleEntity } from './entities/articles.entity'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { ArticleNotFoundException } from './exceptions/article-not-found.exception'
 import { SuccessResponseDto } from './dto/success-response.dto'
+import { UpdateArticleDto } from './dto/update-article.dto'
 
 @Injectable()
 export class ArticlesService {
@@ -17,7 +18,7 @@ export class ArticlesService {
 
     async createArticle(
         currentUserId: number,
-        userData: CreateArticleDto,
+        articleData: CreateArticleDto,
     ): Promise<SuccessResponseDto> {
         const author = await this.usersRepository.findById(currentUserId)
 
@@ -26,7 +27,7 @@ export class ArticlesService {
         }
 
         const newArticle = new ArticleEntity()
-        Object.assign(newArticle, { ...userData, author: author })
+        Object.assign(newArticle, { ...articleData, author: author })
 
         const id = await this.articlesRepository.createAndSave(newArticle)
 
@@ -60,19 +61,19 @@ export class ArticlesService {
         return article
     }
 
-    // async updateUser(
-    //     id: number,
-    //     updateData: UpdateUserDto,
-    // ): Promise<SuccessResponseDto> {
-    //     const status = await this.usersRepository.updateById(id, updateData)
-    //     if (status.affected === 0) {
-    //         throw new UserNotFoundException(id)
-    //     }
-    //     return { id }
-    // }
+    async updateArticle(
+        id: number,
+        updateData: UpdateArticleDto,
+    ): Promise<SuccessResponseDto> {
+        const status = await this.articlesRepository.updateById(id, updateData)
+        if (status.affected === 0) {
+            throw new ArticleNotFoundException(id)
+        }
+        return { id }
+    }
 
     async deleteArticle(id: number): Promise<SuccessResponseDto> {
-        const status = await this.usersRepository.deleteById(id)
+        const status = await this.articlesRepository.deleteById(id)
         if (status.affected === 0) {
             throw new ArticleNotFoundException(id)
         }

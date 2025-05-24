@@ -6,8 +6,6 @@ import {
     ManyToOne,
     CreateDateColumn,
     UpdateDateColumn,
-    // BeforeInsert,
-    // BeforeUpdate,
 } from 'typeorm'
 
 @Entity()
@@ -47,7 +45,6 @@ export class ArticleEntity {
         default: () => 'NOW()',
     })
     updated_at: Date
-
     @ManyToOne(() => UsersEntity, (user) => user.articles, { eager: true })
     author: UsersEntity
 }
