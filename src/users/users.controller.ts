@@ -8,15 +8,27 @@ import {
     Delete,
     NotFoundException,
 } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 
 import { UsersEntity } from './entities/users.entity'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { CreateSwaggerDecorator } from './decorators/create-swagger.decorator'
+import { UserCreatedResponseDto } from './dto/user-created-response.dto'
 
 @Controller('users')
+@ApiTags('User routes')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
+
+    @Post()
+    @CreateSwaggerDecorator()
+    async create(
+        @Body() userData: CreateUserDto,
+    ): Promise<UserCreatedResponseDto> {
+        return this.usersService.createUser(userData)
+    }
 
     @Get()
     async findAll(): Promise<UsersEntity[]> {
@@ -30,11 +42,6 @@ export class UsersController {
             throw new NotFoundException('User not found')
         }
         return user
-    }
-
-    @Post()
-    async create(@Body() userData: CreateUserDto): Promise<UsersEntity> {
-        return this.usersService.createUser(userData)
     }
 
     @Put(':id')

@@ -9,16 +9,21 @@ import { UpdateUserDto } from './dto/update-user.dto'
 export class UsersService {
     constructor(private readonly usersRepository: UsersRepository) {}
 
+    async createUser(userData: CreateUserDto): Promise<{ userId: number }> {
+        const newUser = new UsersEntity()
+        Object.assign(newUser, userData)
+
+        const userId = await this.usersRepository.createAndSave(newUser)
+
+        return { userId }
+    }
+
     async findAll(): Promise<UsersEntity[]> {
         return this.usersRepository.findAll()
     }
 
     async findById(id: number): Promise<UsersEntity | null> {
         return this.usersRepository.findById(id)
-    }
-
-    async createUser(userData: CreateUserDto): Promise<UsersEntity> {
-        return this.usersRepository.createAndSave(userData)
     }
 
     async updateUser(
