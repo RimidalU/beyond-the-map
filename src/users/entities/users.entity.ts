@@ -4,11 +4,13 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm'
 import * as bcrypt from 'bcrypt'
 import { Logger } from '@nestjs/common'
+import { ArticleEntity } from '@src/articles/entities/articles.entity'
 
 const saltOrRounds = 10
 
@@ -37,6 +39,9 @@ export class UsersEntity {
         default: () => 'NOW()',
     })
     updated_at: Date
+
+    @OneToMany(() => ArticleEntity, (article) => article.author)
+    articles: ArticleEntity[]
 
     @BeforeInsert()
     @BeforeUpdate()
