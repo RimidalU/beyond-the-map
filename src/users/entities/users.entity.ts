@@ -7,7 +7,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm'
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 import { Logger } from '@nestjs/common'
 
 const saltOrRounds = 10
@@ -17,7 +17,7 @@ export class UsersEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ unique: true })
+    @Column()
     username: string
 
     @Column({ unique: true })

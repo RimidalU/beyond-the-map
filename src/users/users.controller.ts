@@ -1,0 +1,50 @@
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Param,
+    Put,
+    Delete,
+    NotFoundException,
+} from '@nestjs/common'
+
+import { UsersEntity } from './entities/users.entity'
+import { UsersService } from './users.service'
+
+@Controller('users')
+export class UsersController {
+    constructor(private readonly usersService: UsersService) {}
+
+    @Get()
+    async findAll(): Promise<UsersEntity[]> {
+        return this.usersService.findAll()
+    }
+
+    @Get(':id')
+    async findOne(@Param('id') id: string): Promise<UsersEntity | null> {
+        const user = await this.usersService.findById(+id)
+        if (!user) {
+            throw new NotFoundException('User not found')
+        }
+        return user
+    }
+
+    @Post()
+    async create(@Body() userData: Partial<UsersEntity>): Promise<UsersEntity> {
+        return this.usersService.createUser(userData)
+    }
+
+    @Put(':id')
+    async update(
+        @Param('id') id: string,
+        @Body() updateData: Partial<UsersEntity>,
+    ): Promise<UsersEntity | null> {
+        return this.usersService.updateUser(+id, updateData)
+    }
+
+    @Delete(':id')
+    async remove(@Param('id') id: string): Promise<void> {
+        await this.usersService.deleteUser(+id)
+    }
+}
