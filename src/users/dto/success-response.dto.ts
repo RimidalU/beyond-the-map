@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-export class UserCreatedResponseDto {
+export class SuccessResponseDto {
     @ApiProperty({
         example: '22',
-        description: 'User Id',
+        description: 'Entity Id',
     })
-    readonly userId: number
+    readonly id: number
 }

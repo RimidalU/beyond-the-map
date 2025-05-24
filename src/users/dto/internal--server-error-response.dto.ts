@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger'
 
 export class InternalServerErrorResponseDto {
     @ApiProperty({
-        example: 'User not created',
-        description: ' User not created',
+        example: 'Internal Server Error',
+        description: 'Internal Server Error',
     })
     readonly message: string
 
