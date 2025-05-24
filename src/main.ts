@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { Logger, VersioningType } from '@nestjs/common'
+import { initSwagger } from '@src/app.swagger'
 
 import { AppModule } from './app.module'
 
@@ -17,6 +18,8 @@ async function bootstrap() {
     const config = app.get(ConfigService)
 
     const port = config.get<number>('PORT') ?? 3000
+
+    initSwagger(app)
 
     await app.listen(port, () =>
         logger.log(`Server is listening on port ${port}`),
