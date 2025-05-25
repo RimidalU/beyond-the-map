@@ -8,6 +8,7 @@ import {
     IsUrl,
 } from 'class-validator'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { UserResponseDto } from '@src/users/dto/user.response.dto'
 
 export class ArticleResponseDto {
     @IsString()
@@ -69,8 +70,11 @@ export class ArticleResponseDto {
 
     @IsNotEmpty()
     @ApiProperty({
-        example: 1,
-        description: 'Author ID',
+        example: {
+            id: 1,
+            username: 'Don Dou',
+        },
+        description: 'Author of the article',
     })
-    author: number
+    author: UserResponseDto
 }

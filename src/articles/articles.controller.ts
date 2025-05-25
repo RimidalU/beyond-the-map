@@ -6,6 +6,7 @@ import { ArticleEntity } from './entities/articles.entity'
 import { UpdateArticleDto } from './dto/update-article.dto'
 import { SuccessResponseDto } from './dto/success-response.dto'
 import { CreateSwaggerDecorator } from './decorators/create-swagger.decorator'
+import { FindAllSwaggerDecorator } from './decorators/find-all-swagger.decorator'
 
 @Controller('articles')
 export class ArticlesController {
@@ -17,11 +18,11 @@ export class ArticlesController {
         // @UserInfo('id') currentUserId: number,
         @Body() articleData: CreateArticleDto,
     ): Promise<SuccessResponseDto> {
-        return this.articlesService.createArticle(111, articleData)
+        return this.articlesService.createArticle(24, articleData)
     }
 
     @Get()
-    // @FindAllSwaggerDecorator()
+    @FindAllSwaggerDecorator()
     async findAll(): Promise<ArticleEntity[]> {
         return this.articlesService.findAll()
     }
