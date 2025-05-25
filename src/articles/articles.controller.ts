@@ -7,6 +7,7 @@ import { UpdateArticleDto } from './dto/update-article.dto'
 import { SuccessResponseDto } from './dto/success-response.dto'
 import { CreateSwaggerDecorator } from './decorators/create-swagger.decorator'
 import { FindAllSwaggerDecorator } from './decorators/find-all-swagger.decorator'
+import { FindArticleByIdSwaggerDecorator } from './decorators/find-article-by-id-swagger.decorator'
 
 @Controller('articles')
 export class ArticlesController {
@@ -28,9 +29,9 @@ export class ArticlesController {
     }
 
     @Get(':id')
-    // @FindUserByIdSwaggerDecorator()
+    @FindArticleByIdSwaggerDecorator()
     async findOne(@Param('id') id: string): Promise<ArticleEntity> {
-        return await this.articlesService.findById(+id)
+        return await this.articlesService.findById(Number(id))
     }
 
     @Put(':id')
