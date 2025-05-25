@@ -83,4 +83,13 @@ export class UsersRepository {
             throw new InternalServerError()
         }
     }
+
+    async findByEmail(email: string): Promise<UsersEntity | null> {
+        try {
+            return this.repo.findOneBy({ email })
+        } catch (error) {
+            this.logger.error('Error on find user by email', error)
+            throw new InternalServerError()
+        }
+    }
 }
