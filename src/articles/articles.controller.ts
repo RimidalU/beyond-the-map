@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 
 import { ArticlesService } from './articles.service'
 import { CreateArticleDto } from './dto/create-article.dto'
@@ -9,8 +10,10 @@ import { CreateSwaggerDecorator } from './decorators/create-swagger.decorator'
 import { FindAllSwaggerDecorator } from './decorators/find-all-swagger.decorator'
 import { FindArticleByIdSwaggerDecorator } from './decorators/find-article-by-id-swagger.decorator'
 import { RemoveSwaggerDecorator } from './decorators/remove-swagger.decorator'
+import { UpdateSwaggerDecorator } from './decorators/update-swagger.decorator'
 
 @Controller('articles')
+@ApiTags('Articles routes')
 export class ArticlesController {
     constructor(private readonly articlesService: ArticlesService) {}
 
@@ -36,7 +39,7 @@ export class ArticlesController {
     }
 
     @Put(':id')
-    // @UpdateSwaggerDecorator()
+    @UpdateSwaggerDecorator()
     async update(
         @Param('id') id: string,
         @Body() updateData: UpdateArticleDto,

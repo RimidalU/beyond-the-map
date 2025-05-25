@@ -13,7 +13,7 @@ import { FindUserByIdSwaggerDecorator } from './decorators/find-user-by-id-swagg
 import { UpdateSwaggerDecorator } from './decorators/update-swagger.decorator'
 
 @Controller('users')
-@ApiTags('User routes')
+@ApiTags('Users routes')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
