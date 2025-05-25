@@ -8,6 +8,7 @@ import { SuccessResponseDto } from './dto/success-response.dto'
 import { CreateSwaggerDecorator } from './decorators/create-swagger.decorator'
 import { FindAllSwaggerDecorator } from './decorators/find-all-swagger.decorator'
 import { FindArticleByIdSwaggerDecorator } from './decorators/find-article-by-id-swagger.decorator'
+import { RemoveSwaggerDecorator } from './decorators/remove-swagger.decorator'
 
 @Controller('articles')
 export class ArticlesController {
@@ -44,7 +45,7 @@ export class ArticlesController {
     }
 
     @Delete(':id')
-    // @RemoveSwaggerDecorator()
+    @RemoveSwaggerDecorator()
     async remove(@Param('id') id: string): Promise<SuccessResponseDto> {
         return await this.articlesService.deleteArticle(+id)
     }
