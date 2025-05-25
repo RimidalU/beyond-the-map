@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { UsersRepository } from '@src/users/users.repository'
 import { UsersEntity } from '@src/users/entities/users.entity'
-import { UserNotFoundException } from '@src/users/exceptions/user-not-found.exception'
 
 import { ArticlesRepository } from './articles.repository'
 import { ArticleEntity } from './entities/articles.entity'
@@ -9,6 +8,7 @@ import { CreateArticleDto } from './dto/create-article.dto'
 import { ArticleNotFoundException } from './exceptions/article-not-found.exception'
 import { SuccessResponseDto } from './dto/success-response.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
+import { InvalidAuthorIdException } from './exceptions/invalid-author-id.exception'
 
 @Injectable()
 export class ArticlesService {
@@ -24,7 +24,7 @@ export class ArticlesService {
         const author = await this.usersRepository.findById(currentUserId)
 
         if (!author) {
-            throw new UserNotFoundException(currentUserId)
+            throw new InvalidAuthorIdException()
         }
 
         const newArticle = new ArticleEntity()

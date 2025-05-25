@@ -17,7 +17,7 @@ export class ArticlesController {
         // @UserInfo('id') currentUserId: number,
         @Body() articleData: CreateArticleDto,
     ): Promise<SuccessResponseDto> {
-        return this.articlesService.createArticle(24, articleData)
+        return this.articlesService.createArticle(111, articleData)
     }
 
     @Get()
