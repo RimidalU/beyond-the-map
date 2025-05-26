@@ -4,9 +4,12 @@ import { Logger, VersioningType } from '@nestjs/common'
 import { initSwagger } from '@src/app.swagger'
 
 import { AppModule } from './app.module'
+import { HttpExtendedExceptionFilter } from './filters/HttpExtendedExceptionFilter'
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule)
+    app.useGlobalFilters(new HttpExtendedExceptionFilter())
+
     const logger = new Logger('MainApplication')
 
     app.enableVersioning({
