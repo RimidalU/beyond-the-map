@@ -1,5 +1,15 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common'
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Param,
+    Put,
+    Delete,
+    UseGuards,
+} from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
+import { JwtAuthGuard } from '@src/auth/jwt-auth.guard'
 
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -23,18 +33,21 @@ export class UsersController {
         return this.usersService.createUser(userData)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     @FindAllSwaggerDecorator()
     async findAll(): Promise<UserResponseDto[]> {
         return this.usersService.findAll()
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     @FindUserByIdSwaggerDecorator()
     async findOne(@Param('id') id: string): Promise<UserResponseDto> {
         return await this.usersService.findById(+id)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Put(':id')
     @UpdateSwaggerDecorator()
     async update(
@@ -44,6 +57,7 @@ export class UsersController {
         return await this.usersService.updateUser(+id, updateData)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @RemoveSwaggerDecorator()
     async remove(@Param('id') id: string): Promise<SuccessResponseDto> {
