@@ -1,5 +1,6 @@
 import { applyDecorators } from '@nestjs/common'
 import {
+    ApiBearerAuth,
     ApiCreatedResponse,
     ApiInternalServerErrorResponse,
     ApiNotFoundResponse,
@@ -12,6 +13,8 @@ import { ArticleNotFoundDTO } from '../dto/article-note-found.response.dto'
 
 export function UpdateSwaggerDecorator() {
     return applyDecorators(
+        ApiBearerAuth(),
+
         ApiOperation({ summary: 'Update Article' }),
         ApiNotFoundResponse({
             description: 'Article not found',

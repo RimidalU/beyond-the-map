@@ -1,6 +1,7 @@
 import { applyDecorators } from '@nestjs/common'
 import {
     ApiBadRequestResponse,
+    ApiBearerAuth,
     ApiCreatedResponse,
     ApiInternalServerErrorResponse,
     ApiOperation,
@@ -12,8 +13,9 @@ import { BadRequestResponseDto } from '../dto/bad-request.response.dto'
 
 export function CreateSwaggerDecorator() {
     return applyDecorators(
-        ApiOperation({ summary: 'Create new Article' }),
+        ApiBearerAuth(),
 
+        ApiOperation({ summary: 'Create new Article' }),
         ApiInternalServerErrorResponse({
             description: 'Internal server error',
             type: InternalServerErrorResponseDto,

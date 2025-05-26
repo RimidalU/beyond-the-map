@@ -1,5 +1,6 @@
 import { applyDecorators } from '@nestjs/common'
 import {
+    ApiBearerAuth,
     ApiInternalServerErrorResponse,
     ApiNotFoundResponse,
     ApiOperation,
@@ -12,6 +13,8 @@ import { ArticleNotFoundDTO } from '../dto/article-note-found.response.dto'
 
 export function RemoveSwaggerDecorator() {
     return applyDecorators(
+        ApiBearerAuth(),
+
         ApiOperation({ summary: 'Delete Article' }),
         ApiInternalServerErrorResponse({
             description: 'Internal server error',

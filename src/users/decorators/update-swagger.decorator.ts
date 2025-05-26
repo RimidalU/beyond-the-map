@@ -1,5 +1,6 @@
 import { applyDecorators } from '@nestjs/common'
 import {
+    ApiBearerAuth,
     ApiConflictResponse,
     ApiCreatedResponse,
     ApiInternalServerErrorResponse,
@@ -12,6 +13,8 @@ import { UserAlreadyExistsResponseDto } from '../dto/user-already-exists.respons
 
 export function UpdateSwaggerDecorator() {
     return applyDecorators(
+        ApiBearerAuth(),
+
         ApiOperation({ summary: 'Update User' }),
         ApiConflictResponse({
             description: 'User already exists',

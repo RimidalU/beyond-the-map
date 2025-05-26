@@ -1,5 +1,6 @@
 import { applyDecorators } from '@nestjs/common'
 import {
+    ApiBearerAuth,
     ApiCreatedResponse,
     ApiInternalServerErrorResponse,
     ApiOperation,
@@ -10,6 +11,8 @@ import { UserResponseDto } from '../dto/user.response.dto'
 
 export function FindAllSwaggerDecorator() {
     return applyDecorators(
+        ApiBearerAuth(),
+
         ApiOperation({ summary: 'Find all users' }),
         ApiInternalServerErrorResponse({
             description: 'Internal server error',
