@@ -64,5 +64,13 @@ export default tseslint.config(
         'newlines-between': 'always',
       }],
     },
+  },
+  {
+    files: ['**/*.{spec,test}.ts'],
+    rules: {
+      '@typescript-eslint/unbound-method': 'off',
+      'no-console': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   }
 );
