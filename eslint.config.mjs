@@ -71,6 +71,7 @@ export default tseslint.config(
       '@typescript-eslint/unbound-method': 'off',
       'no-console': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
     },
   }
 );
