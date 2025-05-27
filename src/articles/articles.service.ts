@@ -9,6 +9,7 @@ import { ArticleNotFoundException } from './exceptions/article-not-found.excepti
 import { SuccessResponseDto } from './dto/success-response.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
 import { InvalidAuthorIdException } from './exceptions/invalid-author-id.exception'
+import { QueryInterface } from './types/query.interface'
 
 @Injectable()
 export class ArticlesService {
@@ -35,8 +36,8 @@ export class ArticlesService {
         return { id }
     }
 
-    async findAll(): Promise<ArticleEntity[]> {
-        const articles = await this.articlesRepository.findAll()
+    async findAll(query: QueryInterface): Promise<ArticleEntity[]> {
+        const articles = await this.articlesRepository.findAll(query)
 
         articles.map((article) => {
             ;(article.author as Pick<UsersEntity, 'id' | 'username'>) = {

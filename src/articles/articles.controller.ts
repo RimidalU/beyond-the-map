@@ -6,6 +6,7 @@ import {
     Param,
     Post,
     Put,
+    Query,
     UseGuards,
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
@@ -21,6 +22,7 @@ import { FindAllSwaggerDecorator } from './decorators/find-all-swagger.decorator
 import { FindArticleByIdSwaggerDecorator } from './decorators/find-article-by-id-swagger.decorator'
 import { RemoveSwaggerDecorator } from './decorators/remove-swagger.decorator'
 import { UpdateSwaggerDecorator } from './decorators/update-swagger.decorator'
+import { QueryInterface } from './types/query.interface'
 
 @Controller('articles')
 @ApiTags('Articles routes')
@@ -31,7 +33,6 @@ export class ArticlesController {
     @Post()
     @CreateSwaggerDecorator()
     async create(
-        // @UserInfo('id') currentUserId: number,
         @Body() articleData: CreateArticleDto,
     ): Promise<SuccessResponseDto> {
         return this.articlesService.createArticle(24, articleData)
@@ -39,8 +40,8 @@ export class ArticlesController {
 
     @Get()
     @FindAllSwaggerDecorator()
-    async findAll(): Promise<ArticleEntity[]> {
-        return this.articlesService.findAll()
+    async findAll(@Query() query: QueryInterface): Promise<ArticleEntity[]> {
+        return this.articlesService.findAll(query)
     }
 
     @Get(':id')
