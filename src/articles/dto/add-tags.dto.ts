@@ -1,9 +1,9 @@
-import { IsOptional, IsArray } from 'class-validator'
+import { IsArray, IsNotEmpty } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
 export class AddTagsDto {
     @IsArray()
-    @IsOptional()
+    @IsNotEmpty()
     @ApiProperty({
         example: ['landmark', 'guide', 'local'],
         description: 'List of tags',
