@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { ArticleEntity } from './entities/articles.entity'
 import { InternalServerError } from './exceptions/internal-server-error.exception'
 import { UpdateArticleDto } from './dto/update-article.dto'
+import { QueryInterface } from './types/query.interface'
 
 @Injectable()
 export class ArticlesRepository {
@@ -25,9 +26,51 @@ export class ArticlesRepository {
         }
     }
 
-    async findAll(): Promise<ArticleEntity[]> {
+    async findAll(query: QueryInterface): Promise<ArticleEntity[]> {
         try {
-            return this.repo.find()
+            const {
+                limit = 20,
+                offset = 0,
+                author,
+                title,
+                is_local,
+                tag,
+            } = query
+
+            const queryBuilder = this.repo
+                .createQueryBuilder('article')
+                .leftJoinAndSelect('article.author', 'user')
+
+            if (author) {
+                queryBuilder.andWhere(`user.username ILIKE :author`, {
+                    author: `%${author}%`,
+                })
+            }
+
+            if (title) {
+                queryBuilder.andWhere(`article.title ILIKE :title`, {
+                    title: `%${title}%`,
+                })
+            }
+
+            if (is_local !== undefined) {
+                queryBuilder.andWhere('article.is_local = :is_local', {
+                    is_local,
+                })
+            }
+
+            if (tag) {
+                queryBuilder.andWhere(
+                    ":tag = ANY(string_to_array(article.tags, ','))",
+                    { tag },
+                )
+            }
+
+            return queryBuilder
+                .skip(offset)
+                .take(limit)
+                .orderBy('article.id', 'DESC')
+                .getMany()
         } catch (error) {
             this.logger.error('Error on finding all Article', error)
             throw new InternalServerError()
