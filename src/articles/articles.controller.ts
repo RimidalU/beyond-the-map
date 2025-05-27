@@ -8,9 +8,11 @@ import {
     Put,
     Query,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from '@src/auth/jwt-auth.guard'
+import { CacheInterceptor } from '@nestjs/cache-manager'
 
 import { ArticlesService } from './articles.service'
 import { CreateArticleDto } from './dto/create-article.dto'
@@ -40,12 +42,14 @@ export class ArticlesController {
 
     @Get()
     @FindAllSwaggerDecorator()
+    @UseInterceptors(CacheInterceptor)
     async findAll(@Query() query: QueryInterface): Promise<ArticleEntity[]> {
         return this.articlesService.findAll(query)
     }
 
     @Get(':id')
     @FindArticleByIdSwaggerDecorator()
+    @UseInterceptors(CacheInterceptor)
     async findOne(@Param('id') id: string): Promise<ArticleEntity> {
         return await this.articlesService.findById(Number(id))
     }
