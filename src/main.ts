@@ -1,14 +1,22 @@
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
-import { Logger, VersioningType } from '@nestjs/common'
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common'
 import { initSwagger } from '@src/app.swagger'
 
 import { AppModule } from './app.module'
-import { HttpExtendedExceptionFilter } from './filters/HttpExtendedExceptionFilter'
+// import { HttpExtendedExceptionFilter } from './filters/HttpExtendedExceptionFilter'
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule)
-    app.useGlobalFilters(new HttpExtendedExceptionFilter())
+    // app.useGlobalFilters(new HttpExtendedExceptionFilter())
+
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            forbidNonWhitelisted: true,
+            transform: true,
+        }),
+    )
 
     const logger = new Logger('MainApplication')
 

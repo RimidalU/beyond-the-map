@@ -11,6 +11,7 @@ import {
 import * as bcrypt from 'bcrypt'
 import { Logger } from '@nestjs/common'
 import { ArticleEntity } from '@src/articles/entities/articles.entity'
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
 
 const saltOrRounds = 10
 
@@ -19,12 +20,18 @@ export class UsersEntity {
     @PrimaryGeneratedColumn()
     id: number
 
+    @IsNotEmpty()
+    @IsString()
     @Column()
     username: string
 
+    @IsNotEmpty()
+    @IsEmail()
     @Column({ unique: true })
     email: string
 
+    @IsNotEmpty()
+    @IsString()
     @Column()
     password: string
 
