@@ -64,7 +64,7 @@ describe('update-article.dto', () => {
 
     it('description field is correct', async () => {
         dto.description = stringValue
-        const ofImportDTO = plainToInstance(UpdateArticleDto, dito)
+        const ofImportDTO = plainToInstance(UpdateArticleDto, dto)
         const errors = await validate(ofImportDTO)
         expect(
             errors.map((err) => err.property).includes('description'),
