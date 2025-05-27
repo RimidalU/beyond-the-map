@@ -1,44 +1,10 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator'
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { IsNotEmpty, IsString } from 'class-validator'
+import { Entity, Column } from 'typeorm'
 
-export class CreateArticleDto {
-    @IsString()
+@Entity()
+export class AddLandmarksUrlArticleDto {
     @IsNotEmpty()
-    @ApiProperty({
-        example: 'Exploring Local Landmarks',
-        description: 'Article title',
-    })
-    title: string
-
     @IsString()
-    @IsOptional()
-    @ApiPropertyOptional({
-        example: 'A guide to the most interesting local landmarks.',
-        description: 'Article description',
-    })
-    description: string
-
-    @IsBoolean()
-    @IsOptional()
-    @ApiPropertyOptional({
-        example: true,
-        description: 'Is the article local?',
-        default: false,
-    })
-    is_local: boolean
-
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty({
-        example: 'Downtown',
-        description: 'Locality name',
-    })
-    locality_name: string
-
-    @IsNotEmpty()
-    @ApiProperty({
-        example: 1,
-        description: 'Author ID',
-    })
-    authorId: number
+    @Column({ type: 'varchar', length: 255, nullable: false })
+    landmarks_url: string
 }
