@@ -13,6 +13,9 @@ export const getKeyvModuleConfig = async (
 ): Promise<CacheModuleOptions> => {
     return {
         stores: [
+            createKeyv(
+                configService.get<string>('REDIS_URL', DEFAULT_CACHE_URL),
+            ),
             new Keyv({
                 store: new CacheableMemory({
                     ttl: configService.get<number>(
@@ -22,9 +25,6 @@ export const getKeyvModuleConfig = async (
                     lruSize: DEFAULT_CACHE_SIZE,
                 }),
             }),
-            createKeyv(
-                configService.get<string>('REDIS_URL', DEFAULT_CACHE_URL),
-            ),
             new Keyv({
                 store: new CacheableMemory({
                     ttl: configService.get<number>(
