@@ -4,7 +4,7 @@ import { Logger, ValidationPipe, VersioningType } from '@nestjs/common'
 import { initSwagger } from '@src/app.swagger'
 
 import { AppModule } from './app.module'
-// import { HttpExtendedExceptionFilter } from './filters/HttpExtendedExceptionFilter'
+// import { HttpExtendedExceptionFilter } from './filters/HttpExtendedExceptionFilter' //TODO:refactor swagger
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule)
