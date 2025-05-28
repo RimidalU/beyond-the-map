@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config'
 
 export const getTypeormModuleConfig = async (
     configService: ConfigService,
+    // eslint-disable-next-line
 ): Promise<TypeOrmModuleOptions> => {
     return {
         type: configService.getOrThrow<'postgres'>('TYPEORM_CONNECTION'),
@@ -15,6 +16,6 @@ export const getTypeormModuleConfig = async (
         synchronize: false,
         autoLoadEntities: true,
         useUTC: true,
-        ssl: configService.getOrThrow<string>('NODE_ENV') === 'development',
+        ssl: configService.getOrThrow<string>('NODE_ENV') !== 'development',
     }
 }
